@@ -7,6 +7,8 @@ package form_kursus;
 import uas_crudfahri.koneksidb;
 import java.sql.Connection;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import java.sql.PreparedStatement;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -121,6 +123,11 @@ public class kursus extends javax.swing.JFrame {
         jLabel6.setText("End Date");
 
         jButton_add.setText("Add");
+        jButton_add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_addActionPerformed(evt);
+            }
+        });
 
         jButton_delete.setText("Delete");
 
@@ -234,6 +241,24 @@ public class kursus extends javax.swing.JFrame {
     private void jTextField_course_numberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_course_numberActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_course_numberActionPerformed
+
+    private void jButton_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_addActionPerformed
+        // TODO add your handling code here:
+        try {
+                Connection conn = koneksidb.getConnection();
+                PreparedStatement stmt = conn.prepareStatement("insert into daftarkursus(course_name, course_number, enrollment, start_date, end_date) values(?,?,?,?,?)");
+                stmt.setString(1, jTextField_course_name.getText());
+                stmt.setString(2, jTextField_course_number.getText());
+                stmt.setString(3, jTextField_enrollment.getText());
+                stmt.setString(4, jTextField_start_date.getText());
+                stmt.setString(5, jTextField_end_date.getText());
+                stmt.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data berhasil diubah", "Pesan", JOptionPane.INFORMATION_MESSAGE);
+            TampilData();
+        } catch (SQLException e){
+            System.out.println(e.getMessage);
+        }
+    }//GEN-LAST:event_jButton_addActionPerformed
 
     /**
      * @param args the command line arguments
