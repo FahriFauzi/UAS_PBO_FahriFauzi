@@ -132,6 +132,11 @@ public class kursus extends javax.swing.JFrame {
         jButton_delete.setText("Delete");
 
         jButton_update.setText("Update");
+        jButton_update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_updateActionPerformed(evt);
+            }
+        });
 
         jTable_course.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -150,6 +155,11 @@ public class kursus extends javax.swing.JFrame {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        jTable_course.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_courseMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(jTable_course);
@@ -253,12 +263,40 @@ public class kursus extends javax.swing.JFrame {
                 stmt.setString(4, jTextField_start_date.getText());
                 stmt.setString(5, jTextField_end_date.getText());
                 stmt.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Data berhasil diubah", "Pesan", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Data berhasil ditambah", "Pesan", JOptionPane.INFORMATION_MESSAGE);
             TampilData();
         } catch (SQLException e){
             System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_jButton_addActionPerformed
+
+    private void jTable_courseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_courseMouseClicked
+        // TODO add your handling code here:
+        int baris = jTable_course.getSelectedRow();
+        jTextField_course_name.setText(tblkursus.getValueAt(baris, 0).toString());
+        jTextField_course_number.setText(tblkursus.getValueAt(baris, 1).toString());
+        jTextField_enrollment.setText(tblkursus.getValueAt(baris, 2).toString());
+        jTextField_start_date.setText(tblkursus.getValueAt(baris, 3).toString());
+        jTextField_end_date.setText(tblkursus.getValueAt(baris, 4).toString());
+    }//GEN-LAST:event_jTable_courseMouseClicked
+
+    private void jButton_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_updateActionPerformed
+        // TODO add your handling code here:
+        try {
+        Connection conn = koneksidb.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("update daftarkursus set course_name=?, course_number=?, enrollment=?, start_date=?, end_date=?");
+        stmt.setString(1, jTextField_course_name.getText());
+            stmt.setString(2, jTextField_course_number.getText());
+            stmt.setString(3, jTextField_enrollment.getText());
+            stmt.setString(4, jTextField_start_date.getText());
+            stmt.setString(5, jTextField_end_date.getText());
+            stmt.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Data Berhasil diubah", "Pesan", JOptionPane.INFORMATION_MESSAGE);
+            TampilData();
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_jButton_updateActionPerformed
 
     /**
      * @param args the command line arguments
