@@ -256,7 +256,7 @@ public class kursus extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Data berhasil diubah", "Pesan", JOptionPane.INFORMATION_MESSAGE);
             TampilData();
         } catch (SQLException e){
-            System.out.println(e.getMessage);
+            System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_jButton_addActionPerformed
 
