@@ -130,6 +130,11 @@ public class kursus extends javax.swing.JFrame {
         });
 
         jButton_delete.setText("Delete");
+        jButton_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_deleteActionPerformed(evt);
+            }
+        });
 
         jButton_update.setText("Update");
         jButton_update.addActionListener(new java.awt.event.ActionListener() {
@@ -297,6 +302,28 @@ public class kursus extends javax.swing.JFrame {
             System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_jButton_updateActionPerformed
+
+    private void jButton_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_deleteActionPerformed
+        // TODO add your handling code here:
+        Connection conn = koneksidb.getConnection();
+        int confirm = JOptionPane.showConfirmDialog(null, "Yang Bener mau hapus?", "Konfirmasi", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (confirm == 0) {
+            try {
+                java.sql.PreparedStatement stmt = conn.prepareStatement("delete from daftarkursus where course_name ='" + jTextField_course_name.getText() + "'");
+                stmt.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data berhasil dihapus", "Pesan", JOptionPane.INFORMATION_MESSAGE);
+                TampilData();
+                jTextField_course_name.setText("");
+                jTextField_course_number.setText("");
+                jTextField_enrollment.setText("");
+                jTextField_start_date.setText("");
+                jTextField_end_date.setText("");
+               // jTextField_kode_barang.requestFocus();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Data gagal di hapus" + e.getMessage(), "Pesan", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jButton_deleteActionPerformed
 
     /**
      * @param args the command line arguments
